@@ -1,5 +1,7 @@
 import { Vec2d } from "./Vec2d.js"
 
+export const CELL_SIZE = 70;
+
 export class GameBoard {
   constructor() {
     //The value of a cell is 1 if it contains a marble and 0 if it doesn't
@@ -21,8 +23,8 @@ export class GameBoard {
     let moves = [];
     if(this.cells[source.y][source.x]) {
       for(let dir of Object.values(Move.DIRECTIONS)) {
-        let target = Vec2d.multiply(dir, 2).add(source);
-        if(target.x < 0 || target.x > 7 || target.y < 0 || target.y > 7)
+        let target = Vec2d.add(source, Vec2d.multiply(dir, 2));
+        if(target.x < 0 || target.x >= 7 || target.y < 0 || target.y >= 7)
           continue;
         let m = new Move(dir, target);
         if(this.cells[m.middle.y][m.middle.x] && this.cells[m.target.y][m.target.x] === 0)
@@ -90,6 +92,34 @@ export class GameBoard {
     if(sum === 1 && this.cells[3][3])
       return true;
     return false;
+  }
+
+  draw(canvas, selectedCell = null, selectedMoves = []) {
+    let ctx = canvas.getContext("2d");
+
+    //Background
+    ctx.fillStyle = "rgb(222,184,135)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //Highlight selected cell
+    if(selectedCell) {
+      ctx.fillStyle = "rgb(255,255,0)";
+      ctx.fillRect(selectedCell.x * CELL_SIZE, selectedCell.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    }
+
+    //Draw marbles
+    for(let i = 0; i < 7; i++) {
+      for(let j = 0; j < 7; j++) {
+        if(this.cells[i][j] === null)
+          continue;
+        ctx.fillStyle = this.cells[i][j] ? "rgb(139,105,20)": "rgb(205,170,125)";
+        let x = j * CELL_SIZE + Math.floor(CELL_SIZE/2);
+        let y = i * CELL_SIZE + Math.floor(CELL_SIZE/2);
+        ctx.beginPath();
+        ctx.arc(x, y, Math.floor(CELL_SIZE/3), 0, 2*Math.PI);
+        ctx.fill();
+      }
+    }
   }
 }
 
