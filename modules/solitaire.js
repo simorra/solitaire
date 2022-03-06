@@ -17,7 +17,23 @@ export class GameBoard {
     this.movesHistory = [];
   }
 
-  availableMoves(target) {
+  availableMovesFrom(source) {
+    let moves = [];
+    if(this.cells[source.y][source.x]) {
+      for(let dir of Object.values(Move.DIRECTIONS)) {
+        let target = Vec2d.multiply(dir, 2).add(source);
+        if(target.x < 0 || target.x > 7 || target.y < 0 || target.y > 7)
+          continue;
+        let m = new Move(dir, target);
+        if(this.cells[m.middle.y][m.middle.x] && this.cells[m.target.y][m.target.x] === 0)
+          moves.push(m);
+      }
+    }
+
+    return moves;
+  }
+
+  availableMovesTo(target) {
     let moves = [];
     if(this.cells[target.y][target.x] === 0) {
       for(let dir of Object.values(Move.DIRECTIONS)) {
@@ -37,7 +53,7 @@ export class GameBoard {
     for(let i = 0; i < 7; i++)
       for(let j = 0; j < 7; j++)
         if(this.cells[i][j] === 0)
-          moves = moves.concat(this.availableMoves(new Vec2d(j, i)));
+          moves = moves.concat(this.availableMovesTo(new Vec2d(j, i)));
     
     return moves;
   }
