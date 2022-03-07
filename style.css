@@ -1,0 +1,30 @@
+body {
+  background-color: rgb(85,51,17);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: rgb(255,255,240);
+  font-size: 48px;
+}
+
+canvas {
+  border-radius: 15%;
+}
+
+div.buttons {
+  margin-top: 18px;
+}
+
+button {
+  color: rgb(255,255,240);
+  background-color: rgb(95,61,27);
+  border: solid 2px rgb(255,255,240);
+  border-radius: 10%;
+  font-size: 18px;
+  font-weight: bold;
+  width: 50px;
+  padding: 8px;
+}
