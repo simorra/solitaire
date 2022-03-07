@@ -94,31 +94,35 @@ export class GameBoard {
     return false;
   }
 
-  draw(canvas, selectedCell = null, selectedMoves = []) {
+  draw(canvas, selectedCell = null) {
     let ctx = canvas.getContext("2d");
 
     //Background
-    ctx.fillStyle = "rgb(222,184,135)";
+    ctx.fillStyle = "rgb(202,164,115)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    //Highlight selected cell
-    if(selectedCell) {
-      ctx.fillStyle = "rgb(255,255,0)";
-      ctx.fillRect(selectedCell.x * CELL_SIZE, selectedCell.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-    }
 
     //Draw marbles
     for(let i = 0; i < 7; i++) {
       for(let j = 0; j < 7; j++) {
         if(this.cells[i][j] === null)
           continue;
-        ctx.fillStyle = this.cells[i][j] ? "rgb(139,105,20)": "rgb(205,170,125)";
+        ctx.fillStyle = this.cells[i][j] ? "rgb(119,85,0)": "rgb(185,150,105)";
         let x = j * CELL_SIZE + Math.floor(CELL_SIZE/2);
         let y = i * CELL_SIZE + Math.floor(CELL_SIZE/2);
         ctx.beginPath();
         ctx.arc(x, y, Math.floor(CELL_SIZE/3), 0, 2*Math.PI);
         ctx.fill();
       }
+    }
+
+    //Highlight selected cell
+    if(selectedCell) {
+      ctx.fillStyle = "rgba(255,215,0,1)";
+      let x = selectedCell.x * CELL_SIZE + Math.floor(CELL_SIZE/2);
+      let y = selectedCell.y * CELL_SIZE + Math.floor(CELL_SIZE/2);
+      ctx.beginPath();
+      ctx.arc(x, y, Math.floor(CELL_SIZE/3), 0, 2*Math.PI);
+      ctx.fill();
     }
   }
 }

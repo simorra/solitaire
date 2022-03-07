@@ -17,7 +17,7 @@ function onCanvasClick(e) {
   switch(gb.cells[c.y][c.x]) {
     case 1: //Display the moves available from c
       selectedMoves = gb.availableMovesFrom(c);
-      window.requestAnimationFrame(() => gb.draw(canvas, c, selectedMoves));
+      window.requestAnimationFrame(() => gb.draw(canvas, c));
       break;
     case 0: //Apply a move if possible
       for(let m of selectedMoves) {
