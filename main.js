@@ -1,9 +1,19 @@
 import { CELL_SIZE, GameBoard } from "./modules/solitaire.js"
 import { Vec2d } from "./modules/Vec2d.js"
 
+//Canvas
 let canvas = document.querySelector("#gameWindow");
 canvas.addEventListener("click", onCanvasClick);
 
+//Buttons
+let restartBtn = document.querySelector("#restart");
+restartBtn.addEventListener("click", restart);
+let revertBtn = document.querySelector("#revert");
+revertBtn.addEventListener("click", revert);
+let bestMoveBtn = document.querySelector("#bestMove");
+bestMoveBtn.addEventListener("click", bestMove);
+
+//Create game board 
 let gb = new GameBoard();
 window.requestAnimationFrame(() => gb.draw(canvas));
 
@@ -31,3 +41,17 @@ function onCanvasClick(e) {
       window.requestAnimationFrame(() => gb.draw(canvas));
   }
 }
+
+function restart() {
+  gb.reset();
+  selectedMoves = []; //need to reset status for input handling
+  window.requestAnimationFrame(() => gb.draw(canvas));
+}
+
+function revert() {
+  gb.revertLastMove();
+  selectedMoves = []; //need to reset status for input handling
+  window.requestAnimationFrame(() => gb.draw(canvas));
+}
+
+function bestMove() {}
